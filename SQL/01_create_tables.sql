@@ -1,0 +1,105 @@
+-- Drop tables
+DROP TABLE SERVICE_PART CASCADE CONSTRAINTS;
+DROP TABLE REPAIR_SERVICE CASCADE CONSTRAINTS;
+DROP TABLE REPAIR_REQUEST CASCADE CONSTRAINTS;
+DROP TABLE PART CASCADE CONSTRAINTS;
+DROP TABLE SERVICE CASCADE CONSTRAINTS;
+DROP TABLE DEVICE CASCADE CONSTRAINTS;
+DROP TABLE CUSTOMER CASCADE CONSTRAINTS;
+
+-- Create CUSTOMER table
+CREATE TABLE CUSTOMER(
+    Customer_ID NUMBER(6),
+
+    FirstName VARCHAR2(30) NOT NULL,
+    LastName VARCHAR2(30) NOT NULL,
+    StreetName VARCHAR2(100) NOT NULL,
+    PostalCode VARCHAR2(10) NOT NULL,
+    City VARCHAR2(50) NOT NULL,
+    Phone_Number VARCHAR(20) NOT NULL,
+
+    CONSTRAINT CUSTOMER_Customer_ID_pk PRIMARY KEY (Customer_ID)
+);
+
+-- Create DEVICE table
+CREATE TABLE DEVICE (
+    Device_ID NUMBER(6),
+    Device_Type VARCHAR2(30) NOT NULL,
+    Device_Model VARCHAR2(50) NOT NULL,
+    Device_SerialNo VARCHAR2(50) NOT NULL,
+    CONSTRAINT DEVICE_Device_ID_pk PRIMARY KEY (Device_ID)
+);
+
+-- Create SERVICE table
+CREATE TABLE SERVICE (
+    Service_ID NUMBER(6),
+    Charge NUMBER(8,2) NOT NULL,
+    Service_Description VARCHAR2(100) NOT NULL,
+    CONSTRAINT SERVICE_Service_ID_pk PRIMARY KEY (Service_ID)
+);
+
+-- Create PART table
+CREATE TABLE PART (
+    Part_ID NUMBER(6),
+    Part_Description VARCHAR2(100) NOT NULL,
+    Part_Quantity NUMBER(6) NOT NULL,
+    Part_Cost NUMBER(8,2) NOT NULL,
+    CONSTRAINT PART_Part_ID_pk PRIMARY KEY (Part_ID)
+);
+
+-- Create REPAIR_REQUEST table
+CREATE TABLE REPAIR_REQUEST (
+    Repair_ID NUMBER(6),
+    Repair_Status VARCHAR2(20) NOT NULL,
+    Request_Date DATE NOT NULL,
+    Repair_Description VARCHAR2(500) NOT NULL,
+    Repair_Completion_Date DATE,
+    DeviceDevice_ID NUMBER(6) NOT NULL,
+    CustomerCustomer_ID NUMBER(6) NOT NULL,
+    CONSTRAINT REPAIR_REQUEST_Repair_ID_pk PRIMARY KEY (Repair_ID),
+    CONSTRAINT REPAIR_REQUEST_DeviceDevice_ID_fk FOREIGN KEY (DeviceDevice_ID)
+        REFERENCES DEVICE(Device_ID),
+    CONSTRAINT REPAIR_REQUEST_CustomerCustomer_ID_fk FOREIGN KEY (CustomerCustomer_ID)
+        REFERENCES CUSTOMER(Customer_ID),
+    CONSTRAINT REPAIR_REQUEST_Repair_Status_ck
+        CHECK (
+            Repair_Status IN (
+                'Waiting for Parts',
+                'In Progress',
+                'Ready for Pickup',
+                'Completed'
+            )
+        )
+);
+
+-- Create REPAIR_SERVICE table
+CREATE TABLE REPAIR_SERVICE (
+    REPAIR_REQUESTRepair_ID NUMBER(6),
+    SERVICEService_ID NUMBER(6),
+    CONSTRAINT REPAIR_SERVICE_REPAIR_REQUESTRepair_ID_pk PRIMARY KEY (
+        REPAIR_REQUESTRepair_ID,
+        SERVICEService_ID
+    ),
+    CONSTRAINT REPAIR_SERVICE_REPAIR_REQUESTRepair_ID_fk FOREIGN KEY (REPAIR_REQUESTRepair_ID)
+        REFERENCES REPAIR_REQUEST(Repair_ID),
+    CONSTRAINT REPAIR_SERVICE_SERVICEService_ID_fk FOREIGN KEY (SERVICEService_ID)
+        REFERENCES SERVICE(Service_ID)
+);
+
+-- Create SERVICE_PART table
+CREATE TABLE SERVICE_PART (
+    SERVICEService_ID NUMBER(6),
+    PARTPart_ID NUMBER(6),
+    Parts_Used NUMBER(4) NOT NULL,
+    CONSTRAINT PK_SERVICE_PART
+        PRIMARY KEY (
+            SERVICEService_ID,
+            PARTPart_ID
+        ),
+    CONSTRAINT SERVICE_PART_SERVICEService_ID_fk FOREIGN KEY (SERVICEService_ID)
+        REFERENCES SERVICE(Service_ID),
+    CONSTRAINT SERVICE_PART_PARTPart_ID_fk FOREIGN KEY (PARTPart_ID)
+        REFERENCES PART(Part_ID),
+    CONSTRAINT SERVICE_PART_Parts_Used_ck
+        CHECK (Parts_Used > 0)
+);
