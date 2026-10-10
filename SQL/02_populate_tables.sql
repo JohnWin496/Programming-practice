@@ -1,0 +1,138 @@
+-- Populate CUSTOMER table
+INSERT INTO CUSTOMER
+VALUES (1,'John','Smith','12 Queen Street','1010','Auckland','0211111111');
+
+INSERT INTO CUSTOMER
+VALUES (2,'Sarah','Lee','25 King Road','0620','Auckland','0212222222');
+
+INSERT INTO CUSTOMER
+VALUES (3,'Michael','Brown','8 Victoria Ave','2010','Auckland','0213333333');
+
+INSERT INTO CUSTOMER
+VALUES (4,'Emma','Wilson','33 Beach Road','1023','Auckland','0214444444');
+
+INSERT INTO CUSTOMER
+VALUES (5,'David','Taylor','19 Park Lane','2025','Auckland','0215555555');
+
+-- Populate DEVICE table
+INSERT INTO DEVICE
+VALUES (1,'Smartphone','iPhone 14','APL001');
+
+INSERT INTO DEVICE
+VALUES (2,'Laptop','Dell XPS 13','DLL002');
+
+INSERT INTO DEVICE
+VALUES (3,'Tablet','iPad Air','IPD003');
+
+INSERT INTO DEVICE
+VALUES (4,'Smartphone','Samsung S24','SMS004');
+
+INSERT INTO DEVICE
+VALUES (5,'Laptop','HP Pavilion','HP005');
+
+-- Populate SERVICE table
+INSERT INTO SERVICE
+VALUES (1,99.99,'Screen Replacement');
+
+INSERT INTO SERVICE
+VALUES (2,49.99,'Battery Replacement');
+
+INSERT INTO SERVICE
+VALUES (3,79.99,'Keyboard Repair');
+
+INSERT INTO SERVICE
+VALUES (4,29.99,'Software Troubleshooting');
+
+INSERT INTO SERVICE
+VALUES (5,59.99,'Charging Port Repair');
+
+-- Populate PART table
+INSERT INTO PART
+VALUES (1,'iPhone Screen',15,45.00);
+
+INSERT INTO PART
+VALUES (2,'Laptop Keyboard',10,30.00);
+
+INSERT INTO PART
+VALUES (3,'Samsung Battery',20,25.00);
+
+INSERT INTO PART
+VALUES (4,'USB-C Charging Port',18,15.00);
+
+INSERT INTO PART
+VALUES (5,'Tablet Screen',12,40.00);
+
+-- Populate REPAIR_REQUEST table
+INSERT INTO REPAIR_REQUEST
+VALUES
+(
+1,
+'Completed',
+TO_DATE('01-05-2026','DD-MM-YYYY'),
+'Cracked screen',
+TO_DATE('03-05-2026','DD-MM-YYYY'),
+1,
+1
+);
+
+INSERT INTO REPAIR_REQUEST
+VALUES
+(
+2,
+'In Progress',
+TO_DATE('05-05-2026','DD-MM-YYYY'),
+'Battery drains quickly',
+NULL,
+2,
+2
+);
+
+INSERT INTO REPAIR_REQUEST
+VALUES
+(
+3,
+'Waiting for Parts',
+TO_DATE('08-05-2026','DD-MM-YYYY'),
+'Broken charging port',
+NULL,
+4,
+3
+);
+
+INSERT INTO REPAIR_REQUEST
+VALUES
+(
+4,
+'Completed',
+TO_DATE('10-05-2026','DD-MM-YYYY'),
+'Keyboard not working',
+TO_DATE('12-05-2026','DD-MM-YYYY'),
+5,
+4
+);
+
+INSERT INTO REPAIR_REQUEST
+VALUES
+(
+5,
+'Ready for Pickup',
+TO_DATE('12-05-2026','DD-MM-YYYY'),
+'Tablet screen damaged',
+TO_DATE('15-05-2026','DD-MM-YYYY'),
+3,
+5
+);
+
+-- Populate REPAIR_SERVICE table
+INSERT INTO REPAIR_SERVICE VALUES (1,1);
+INSERT INTO REPAIR_SERVICE VALUES (2,2);
+INSERT INTO REPAIR_SERVICE VALUES (3,5);
+INSERT INTO REPAIR_SERVICE VALUES (4,3);
+INSERT INTO REPAIR_SERVICE VALUES (5,1);
+
+-- Populate SERVICE_PART table
+INSERT INTO SERVICE_PART VALUES (1,1,1);
+INSERT INTO SERVICE_PART VALUES (2,3,1);
+INSERT INTO SERVICE_PART VALUES (3,2,1);
+INSERT INTO SERVICE_PART VALUES (5,4,1);
+INSERT INTO SERVICE_PART VALUES (1,5,1);
